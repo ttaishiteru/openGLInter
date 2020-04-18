@@ -8,6 +8,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "Camera.h"
+#include "Shader.h"
 
 using namespace std;
 
@@ -102,7 +104,97 @@ int main(int argc, char* argv[]) {
 	}
 
 	glViewport(0, 0, 600, 800);
-		
-	return 0;
 
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);//绑定VAO
+
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);//生成VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+	unsigned int TexBufferA;
+	glGenTextures(1, &TexBufferA);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, TexBufferA);//默认进入uniform
+	int width, height, nrChannel;
+	stbi_set_flip_vertically_on_load(true);
+	unsigned char* data = stbi_load("container.jpg", &width, &height, &nrChannel, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		//jpg用GL_RGB
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		cout << "Load Image Failed" << endl;
+	}
+	stbi_image_free(data);
+
+	unsigned int TexBufferB;
+	glGenTextures(1, &TexBufferB);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, TexBufferB);
+	unsigned char* data2 = stbi_load("awesomeface.png", &width, &height, &nrChannel, 0);
+	if (data2) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data2);
+		//png用GL_RGBA
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		cout << "Load Image Failed" << endl;
+	}
+	stbi_image_free(data2);
+
+	Camera camera(glm::vec3(0.0, 0.0, 3.0f), glm::vec3(0,0,0),glm::vec3(0,1.0f,0));//造出camera
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(2);
+
+	glm::mat4 modelMat = glm::mat4(1.0f);
+	modelMat = glm::rotate(modelMat, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::mat4 viewMat = glm::mat4(1.0f);
+	viewMat = camera.getViewMat();
+	glm::mat4 projMat = glm::mat4(1.0f);
+	projMat = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+	
+	Shader *shaderIn = new Shader("vertexSource.vert", "fragmentSource.frag");
+
+	while (!glfwWindowShouldClose(window)) {//渲染循环
+		//探测用户是否要关闭window
+		processInput(window);
+
+		//trans = glm::translate(trans, glm::vec3(0.001f, 0.0f, 0.0f));动态移动
+		glClearColor(0, 0.5f, 0.5f, 1.0f);//RGB,透明值
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//清屏避免出现上一帧画面
+
+		glBindVertexArray(VAO);
+
+		//发出10次Draw Call
+		for (int i = 0;i < 10;i++) {
+			glm::mat4 tmpMat = glm::mat4(1.0f);
+			tmpMat = glm::translate(tmpMat, cubePositions[i]);
+			glUniform1i(glGetUniformLocation(shaderIn->ID, "ourTexture"), 0);
+			glUniform1i(glGetUniformLocation(shaderIn->ID, "ourFace"), 1);
+
+			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(tmpMat));
+			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
+			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));//局部空间->投影空间的变化
+
+			shaderIn->use();
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
+		glfwSwapBuffers(window);//交换颜色缓存区块，buffer包含颜色的信息
+		glfwPollEvents();
+	}
+	glfwTerminate();
+
+	return 0;
 }
