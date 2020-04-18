@@ -33,4 +33,8 @@
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="fragmentSource.frag" />
+    <Text Include="VertexSource.vert" />
+  </ItemGroup>
 </Project>
