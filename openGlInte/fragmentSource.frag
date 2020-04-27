@@ -6,5 +6,5 @@ uniform sampler2D ourFace;
 out vec4 FragColor; 
 void main() {
 //FragColor = texture(ourTexture,texCoord) * vertexColor;
-FragColor = mix(texture(ourTexture,texCoord),texture(ourFace,texCoord),0.2);
+FragColor = mix(texture(ourTexture,texCoord),texture(ourFace,texCoord),0.1);
 }
