@@ -14,48 +14,48 @@
 using namespace std;
 
 #pragma region Model Data
-float vertices[] = {//正方体的顶点/uv
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+GLfloat vertices[] = {//顶点和法向量
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
 
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 glm::vec3 cubePositions[] = {
   glm::vec3(0.0f,  0.0f,  0.0f),
@@ -85,11 +85,35 @@ void processInput(GLFWwindow *window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {//ESC键退出
 		glfwSetWindowShouldClose(window, true);
 	}
+	//z
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 		camera_ora.speedZ = 1.0f;
 	}
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
+	else if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS) {
 		camera_ora.speedZ = -1.0f;
+	}
+	else {
+		camera_ora.speedZ = 0.0f;
+	}
+	//x
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		camera_ora.speedX = -1.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+		camera_ora.speedX = 1.0f;
+	}
+	else {
+		camera_ora.speedX = 0.0f;
+	}
+	//y
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+		camera_ora.speedY = -1.0f;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+		camera_ora.speedY = 1.0f;
+	}
+	else {
+		camera_ora.speedY = 0.0f;
 	}
 }
 
@@ -104,7 +128,7 @@ void mouse_callBack(GLFWwindow *window,double xPos,double yPos) {
 	deltaX = xPos - lastX;
 	deltaY = yPos - lastY;
 	lastX = xPos;
-	lastY - yPos;
+	lastY = yPos;
 
 	camera_ora.ProcessMouseMovement(deltaX, deltaY);
 }
@@ -161,7 +185,7 @@ int main(int argc, char* argv[]) {
 			return -1;
 	}
 
-	glViewport(0, 0, 600, 800);
+	glViewport(0, 0, 800, 600);
 	glEnable(GL_DEPTH_TEST);
 #pragma endregion
 
@@ -183,10 +207,10 @@ int main(int argc, char* argv[]) {
 	TexBufferB = LoadImageToGPU("awesomeface.png", GL_RGBA, GL_RGBA, 1);
 	#pragma endregion
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 
 	#pragma region Prepare MVP Matrices
@@ -199,7 +223,7 @@ int main(int argc, char* argv[]) {
 	#pragma endregion
 
 	#pragma region Init Shader
-	Shader *shaderIn = new Shader("vertexSource.vert", "fragmentSource.frag");
+	Shader *shaderIn = new Shader("Light.vert", "LightColor.frag");
 	
 #pragma endregion
 	
@@ -210,7 +234,8 @@ int main(int argc, char* argv[]) {
 		processInput(window);
 
 		//trans = glm::translate(trans, glm::vec3(0.001f, 0.0f, 0.0f));动态移动
-		glClearColor(0, 0.5f, 0.5f, 1.0f);//RGB,透明值
+		//glClearColor(0, 0.5f, 0.5f, 1.0f);//RGB,透明值
+		glClearColor(0, 0, 0, 1.0f); 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//清屏避免出现上一帧画面
 
 		viewMat = camera_ora.getViewMat();
@@ -227,8 +252,14 @@ int main(int argc, char* argv[]) {
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, TexBufferB);
 			//Set Merterial ->Uniform
-			glUniform1i(glGetUniformLocation(shaderIn->ID, "ourTexture"), 0);
-			glUniform1i(glGetUniformLocation(shaderIn->ID, "ourFace"), 1);
+			//glUniform1i(glGetUniformLocation(shaderIn->ID, "ourTexture"), 0);
+			//glUniform1i(glGetUniformLocation(shaderIn->ID, "ourFace"), 1);
+
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "objColor"), 1.0f, 0.5f, 0.31f);//模型颜色
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "ambientColor"), 0.2f, 0.1f, 0.0f);//环境光
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "lightPos"), 10.0f, 10.0f, 5.0f);//diffuse位置
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "lightColor"), 1.0f, 1.0f, 1.0f);//diffuse颜色
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "cameraPos"), camera_ora.Position.x, camera_ora.Position.y, camera_ora.Position.z);
 			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
 			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "viewMat"), 1, GL_FALSE, glm::value_ptr(viewMat));
 			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "projMat"), 1, GL_FALSE, glm::value_ptr(projMat));//局部空间->投影空间

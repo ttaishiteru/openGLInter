@@ -23,7 +23,7 @@ Camera::Camera(glm::vec3 _position, float _pitch, float _yaw, glm::vec3 _worldup
 	Forword.y = glm::sin(_pitch);
 	Forword.z = glm::cos(_pitch) * glm::cos(_yaw);
 	Right = glm::normalize(glm::cross(Forword, _worldup));
-	Up = glm::normalize(glm::cross(Forword, Right));
+	Up = glm::normalize(glm::cross(Right, Forword));
 }
 
 void Camera::UpdateCameraVectors() {//更新摄像头位置
@@ -31,7 +31,7 @@ void Camera::UpdateCameraVectors() {//更新摄像头位置
 	Forword.y = glm::sin(Pitch);
 	Forword.z = glm::cos(Pitch)*glm::cos(Yaw);
 	Right = glm::normalize(glm::cross(Forword, WorldUp));
-	Up = glm::normalize(glm::cross(Forword, Right));
+	Up = glm::normalize(glm::cross(Right, Forword));
 }
 
 glm::mat4  Camera::getViewMat() {
@@ -40,12 +40,12 @@ glm::mat4  Camera::getViewMat() {
 }
 
 void Camera::UpdateCameraPos() {//根据输入移动相机的前进/后退
-	Position += Forword * speedZ * 0.01f;
+	Position += Forword * speedZ * 0.01f + Right * speedX * 0.01f + Up * speedY * 0.01f;
 }
 
 void  Camera::ProcessMouseMovement(float deltaX, float deltaY) {
-	Pitch += deltaY*0.0005f;
-	Yaw += deltaX*0.0005f;
+	Pitch += deltaX*0.001f;
+	Yaw += deltaY*0.001f;
 	UpdateCameraVectors();
 }
 //Camera::~Camera()

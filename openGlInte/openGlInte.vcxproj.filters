@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="LightColor.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +43,7 @@
   <ItemGroup>
     <Text Include="fragmentSource.frag" />
     <Text Include="VertexSource.vert" />
+    <Text Include="Light.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="awesomeface.png">

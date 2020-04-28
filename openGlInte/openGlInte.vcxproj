@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="LightColor.frag" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragmentSource.frag" />
+    <Text Include="Light.vert" />
     <Text Include="VertexSource.vert" />
   </ItemGroup>
   <ItemGroup>
