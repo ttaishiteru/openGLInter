@@ -10,6 +10,7 @@
 #include "stb_image.h"
 #include "Camera.h"
 #include "Shader.h"
+#include "Material.h"
 
 using namespace std;
 
@@ -227,6 +228,15 @@ int main(int argc, char* argv[]) {
 	
 #pragma endregion
 	
+	#pragma region Init Material
+	Material *myMaterial = new Material(shaderIn,
+		glm::vec3(0.0f,0.0f,1.0f),
+		glm::vec3(1.0f,1.0f,1.0f),
+		glm::vec3(1.0f,1.0f,1.0f),
+		32.0f);
+
+	#pragma endregion
+
 #pragma 
 	while (!glfwWindowShouldClose(window)) {//渲染循环
 		
@@ -254,10 +264,14 @@ int main(int argc, char* argv[]) {
 			//Set Merterial ->Uniform
 			//glUniform1i(glGetUniformLocation(shaderIn->ID, "ourTexture"), 0);
 			//glUniform1i(glGetUniformLocation(shaderIn->ID, "ourFace"), 1);
+			myMaterial->shader->SetUniform3f("material.ambient", myMaterial->ambient);
+			myMaterial->shader->SetUniform3f("material.diffuse", myMaterial->diffuse);
+			myMaterial->shader->SetUniform3f("material.specular", myMaterial->specular);
+			myMaterial->shader->SetUniform1f("material.shineiness", myMaterial->shineiness);
 
-			glUniform3f(glGetUniformLocation(shaderIn->ID, "objColor"), 1.0f, 0.5f, 0.31f);//模型颜色
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "objColor"), 1.0f, 0.5f, 0.3f);//模型颜色
 			glUniform3f(glGetUniformLocation(shaderIn->ID, "ambientColor"), 0.2f, 0.1f, 0.0f);//环境光
-			glUniform3f(glGetUniformLocation(shaderIn->ID, "lightPos"), 10.0f, 10.0f, 5.0f);//diffuse位置
+			glUniform3f(glGetUniformLocation(shaderIn->ID, "lightPos"), 10.0f, 10.0f, -5.0f);//diffuse位置
 			glUniform3f(glGetUniformLocation(shaderIn->ID, "lightColor"), 1.0f, 1.0f, 1.0f);//diffuse颜色
 			glUniform3f(glGetUniformLocation(shaderIn->ID, "cameraPos"), camera_ora.Position.x, camera_ora.Position.y, camera_ora.Position.z);
 			glUniformMatrix4fv(glGetUniformLocation(shaderIn->ID, "modelMat"), 1, GL_FALSE, glm::value_ptr(modelMat));
